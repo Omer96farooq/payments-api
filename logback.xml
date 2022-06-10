@@ -1,0 +1,35 @@
+<configuration scan="true" scanPeriod="10 seconds">
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator"/>
+    <appender name="LOGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/ws.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>logs/ws.log.%d{yyyy-MM-dd}.txt.gz</fileNamePattern>
+            <!-- keep 180 days' worth of history -->
+            <maxHistory>180</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <charset>UTF-8</charset>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <Pattern>%d{yyyy-MM-ddTHH:mm:ss.S} [%X{uid}] [%-5p] %c{1}:%L - %m%n</Pattern>
+                <!--<Pattern>%d{yyyy-MM-ddTHH:mm:ss.S} [%X{uid}] [%-5p] - %m%n</Pattern>-->
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <!--Pattern>%d{yyyy-MM-dd HH:mm:ss.S} [%X{uid}] %highlight([%-5p]) %magenta(%c{1}:%L) - %m%n</Pattern-->
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.S} [%X{uid}] %highlight([%-5p]) - %m%n</Pattern>
+        </layout>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="LOGFILE" />
+    </root>
+    <!--enable on local for highlighted logs in console -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
